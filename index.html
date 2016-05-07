@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Date Picker Practice</title>
+    <link rel="stylesheet" href="css/jquery-ui.css">
+    <script src="js/jquery.js"></script>
+    <script src="js/jquery-ui.js"></script>
+</head>
+<body>
+<div>
+    <label for="from">Checkin Date:</label>
+    <input type="text" id="from" placeholder="Select Check-in Date:">
+    <label for="to">Checkout Date:</label>
+    <input type="text" id="to" placeholder="Select Check-out Date:">
+    <button type="button" id="apply">Apply</button>
+
+</div>
+
+<!--<div id="jrange" class="dates">
+    <input />
+    <div></div>
+</div>-->
+
+<script>
+/*
+var cur = -1, prv = -1;
+
+$(document).ready( function(){
+    $('#jrange').datepicker({
+        numberOfMonths: 1,
+        defaultDate: "+1w",
+        changeMonth: true,
+
+        beforeShowDay: function (date) {
+            return [true,
+              ( (date.getDate() >= Math.min(prv, cur) && date.getDate() <= Math.max(prv, cur)) ?
+                          'date-range-selected' : '')];
+        },
+
+        onSelect: function ( dateText, inst ) {
+           var d1, d2;
+
+           prv = +cur;
+           cur = inst.selectedDay;
+           if ( prv == -1 || prv == cur ) {
+              prv = cur;
+              $('#jrange').val( dateText );
+           } else {
+              d1 = $.datepicker.formatDate(
+                     'mm/dd/yy',
+                     new Date( inst.selectedYear, inst.selectedMonth, Math.min(prv,cur) ),
+                     {}
+                  );
+
+              d2 = $.datepicker.formatDate(
+                     'mm/dd/yy',
+                     new Date( inst.selectedYear, inst.selectedMonth, Math.max(prv,cur) ),
+                     {}
+                  );
+              $('#jrange').val( d1+' - '+d2 );
+           }
+        }
+
+    });
+});
+*/
+
+
+
+var array = ["2016-05-14","2016-05-15","2016-05-16"]
+
+
+$(document).ready( function(){
+
+    $('#from').datepicker({
+        defaultDate: "+1w",
+        changeMonth: true,
+        numberOfMonths: 2,
+
+        beforeShowDay: function (date) {
+            var string = jQuery.datepicker.formatDate('yy-mm-dd', date);
+            return [ array.indexOf(string) == -1 ]
+        },
+
+        onClose: function( selectedDate ) {
+            $( "#to" ).datepicker( "option", "minDate", selectedDate );
+
+            /*alert("Checkin date is: " + checkInDate);*/
+        }
+    });
+
+    $( "#to" ).datepicker({
+        defaultDate: "+1w",
+        changeMonth: true,
+        numberOfMonths: 2,
+
+        beforeShowDay: function (date) {
+            var string = jQuery.datepicker.formatDate('yy-mm-dd', date);
+            return [ array.indexOf(string) == -1 ]
+        },
+        onClose: function( selectedDate ) {
+            $( "#from" ).datepicker( "option", "maxDate", selectedDate );
+
+            /*alert("Checkout date is: " + checkOutDate);*/
+        }
+    });
+
+    $('#apply').click(function(){
+
+        var beginDate = $('#from').datepicker("getDate");
+
+        var endDate = $('#to').datepicker("getDate");
+
+        var diff = (endDate - beginDate)/86400000;
+
+        if(diff < 7){
+            alert("Please book at least a week.");
+        }
+    });
+
+});
+
+/*function days(){
+    var a = $('from').datepicker('getDate').getTime(),
+        b = $('to').datepicker('getDate').getTime(),
+        c = 24*60*60*1000,
+        diffDays = Math.round(Math.abs((a - b)/(c)));
+    console.log(diffDays);
+}
+
+document.getElementById("d").innerHTML = days();*/
+
+/*
+$(document).ready( function(){
+    $('#dp1').datepicker({
+    beforeShowDay: function (date) {
+        var dayOfWeek = date.getDay();
+        if (dayOfWeek == 5) return [false];
+        else return [true];
+    }
+});
+});*/
+
+
+</script>
+
+</body>
+</html>
