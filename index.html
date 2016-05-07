@@ -14,6 +14,7 @@
     <label for="to">Checkout Date:</label>
     <input type="text" id="to" placeholder="Select Check-out Date:">
     <button type="button" id="apply">Apply</button>
+    <button type="button" id="price">Price</button>
 
 </div>
 
@@ -68,7 +69,7 @@ $(document).ready( function(){
 
 
 
-var array = ["2016-05-14","2016-05-15","2016-05-16"]
+var array = ["2016-05-14","2016-05-15","2016-05-16","2016-06-02","2016-06-03","2016-06-04","2016-06-05","2016-06-06"]
 
 
 $(document).ready( function(){
@@ -116,20 +117,34 @@ $(document).ready( function(){
 
         if(diff < 7){
             alert("Please book at least a week.");
+        } else {alert("Please check the price!");}
+    });
+
+    $('#price').click(function(){
+
+        var checkInDate = $('#from').datepicker("getDate");
+        var checkOutDate = $('#to').datepicker("getDate");
+
+        var d1 = new Date(2016, 04, 01);
+        var d2 = new Date(2016, 11, 15);
+
+        var d3 = new Date(2016, 11, 16);
+        var d4 = new Date(2017, 00, 02);
+
+        /*alert("what's d1 " + d1);*/
+
+        if (checkInDate > d1 && checkOutDate < d2){
+            alert("You are in the lowest rate season, and the total price is $2900/week");
+        } else if (checkInDate > d3 && checkOutDate < d4){
+            alert("You are in the highest rate season, and the total price is $7900/week");
+        } else {
+            alert("Enjoy Aruba, your rate is $3900/week");
         }
     });
 
 });
 
-/*function days(){
-    var a = $('from').datepicker('getDate').getTime(),
-        b = $('to').datepicker('getDate').getTime(),
-        c = 24*60*60*1000,
-        diffDays = Math.round(Math.abs((a - b)/(c)));
-    console.log(diffDays);
-}
 
-document.getElementById("d").innerHTML = days();*/
 
 /*
 $(document).ready( function(){
