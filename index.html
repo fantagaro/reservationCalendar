@@ -15,6 +15,7 @@
     <input type="text" id="to" placeholder="Select Check-out Date:">
     <button type="button" id="apply">Apply</button>
     <button type="button" id="price">Price</button>
+    <button type="button" id="reserve">Reserve</button>
 
 </div>
 
@@ -115,8 +116,8 @@ $(document).ready( function(){
 
         var diff = (endDate - beginDate)/86400000;
 
-        if(diff < 7){
-            alert("Please book at least a week.");
+        if(diff < 3){
+            alert("Please book at least 3 days.");
         } else {alert("Please check the price!");}
     });
 
@@ -124,24 +125,113 @@ $(document).ready( function(){
 
         var checkInDate = $('#from').datepicker("getDate");
         var checkOutDate = $('#to').datepicker("getDate");
+        var diff = (checkOutDate - checkInDate)/86400000;
 
+        /*Edge dates for the swing seasons*/
         var d1 = new Date(2016, 04, 01);
-        var d2 = new Date(2016, 11, 15);
+        var d2 = new Date(2016, 07, 15);
 
-        var d3 = new Date(2016, 11, 16);
-        var d4 = new Date(2017, 00, 02);
+        /*Edge dates for the low seasons*/
+        var d3 = new Date(2016, 07, 16);
+        var d4 = new Date(2016, 11, 15);
+
+        /*Edge dates for the holiday seasons*/
+        var d5 = new Date(2016, 11, 16);
+        var d6 = new Date(2017, 00, 02);
+
+        /*Edge dates for the high season */
+        var d7 = new Date(2017, 00, 03);
+        var d8 = new Date(2017, 03, 30);
+
+        var dailyRate = 650;
+        var lowWeeklyRate = 2900;
+        var swingWeeklyRate = 3400;
+        var highWeeklyRate = 3900;
+        var holidayDailyRate = 7900/7;
+        var holidayWeeklyRate = 7900;
+        var totalPrice;
 
         /*alert("what's d1 " + d1);*/
 
-        if (checkInDate > d1 && checkOutDate < d2){
-            alert("You are in the lowest rate season, and the total price is $2900/week");
-        } else if (checkInDate > d3 && checkOutDate < d4){
-            alert("You are in the highest rate season, and the total price is $7900/week");
-        } else {
-            alert("Enjoy Aruba, your rate is $3900/week");
+        if (diff<=2) {alert("Please contact the owner directly for special arrangement.")}
+        else {
+            if (checkInDate >= d1 && checkOutDate <= d2) {
+                alert("You are in the swing rate season, and the weekly price is $3400/week");
+                if (diff < 7 && diff > 2) {
+                    totalPrice = diff * dailyRate;
+                    alert("The total price is: " + totalPrice);
+                } else {
+                    totalPrice = Math.floor(swingWeeklyRate + (diff - 7) * swingWeeklyRate / 7);
+                    alert("The total price is: " + totalPrice);
+                }
+            } else if (checkInDate >= d3 && checkOutDate <= d4) {
+                alert("You are in the low season, and the weekly price is $2900/week");
+                if (diff < 7 && diff > 2) {
+                    totalPrice = diff * dailyRate;
+                    alert("The total price is: " + totalPrice);
+                } else {
+                    totalPrice = Math.floor(lowWeeklyRate + (diff - 7) * lowWeeklyRate / 7);
+                    alert("The total price is: " + totalPrice);
+                }
+            } else if (checkInDate >= d5 && checkOutDate <= d6) {
+                alert("You are in the holiday season, and the weekly price is $7900/week ");
+                if (diff < 7 && diff > 2) {
+                    totalPrice = Math.floor(diff * holidayDailyRate);
+                    alert("The total price is: " + totalPrice);
+                } else {
+                    totalPrice = Math.floor(holidayWeeklyRate + (diff - 7) * holidayWeeklyRate / 7);
+                    alert("The total price is: " + totalPrice);
+                }
+            } else if (checkInDate >= d7 && checkOutDate <= d8) {
+                alert("You are in high season, and the weekly price is $3900/week");
+                if (diff < 7 && diff > 2) {
+                    totalPrice = diff * dailyRate;
+                    alert("The total price is: " + totalPrice);
+                } else {
+                    totalPrice = Math.floor(highWeeklyRate + (diff - 7) * highWeeklyRate / 7);
+                    alert("The total price is: " + totalPrice);
+                }
+            } else if (checkInDate > d1 && checkInDate < d2 && checkOutDate > d3 && checkOutDate < d4) {
+                alert("Dates across swing and low season");
+                if (diff < 7 && diff > 2) {
+                    totalPrice = diff * dailyRate;
+                    alert("The total price is: " + totalPrice);
+                } else {
+                    var swingDays = (d2 - checkInDate)/86400000;
+                    alert("How many days of swing season:" + swingDays);
+                    var lowDays1 = (checkOutDate - d3)/86400000;
+                    totalPrice = Math.floor((swingDays * swingWeeklyRate / 7) + (lowDays1 * lowWeeklyRate / 7));
+                    alert("The total price is: " + totalPrice);
+                }
+            } else if (checkInDate > d3 && checkInDate < d4 && checkOutDate > d5 && checkOutDate < d6) {
+                alert("Dates across low and holiday season");
+                var lowDays2 = (d4 - checkInDate)/86400000;
+                var holidayDays = (checkOutDate - d5)/86400000;
+                if (diff < 7 && diff > 2) {
+                    totalPrice = Math.floor(lowDays2 * dailyRate + holidayDays * holidayWeeklyRate / 7);
+                    alert("The total price is: " + totalPrice);
+                } else {
+                    totalPrice = Math.floor(lowDays2 * lowWeeklyRate / 7 + holidayDays * holidayWeeklyRate / 7);
+                    alert("The total price is: " + totalPrice);
+                }
+            } else {
+                alert("Dates across holiday and high season");
+                var holidayDays2 = (d6 - checkInDate)/86400000;
+                var highDays = (checkOutDate - d7)/86400000;
+                if (diff < 7 && diff > 2) {
+                    totalPrice = Math.floor(highDays * dailyRate + holidayDays2 * holidayWeeklyRate / 7);
+                    alert("The total price is: " + totalPrice);
+                } else {
+                    totalPrice = Math.floor(highDays * highWeeklyRate / 7 + holidayDays2 * holidayWeeklyRate / 7);
+                    alert("The total price is: " + totalPrice);
+                }
+            }
         }
     });
 
+    $('#reserve').click(function(){
+
+    });
 });
 
 
