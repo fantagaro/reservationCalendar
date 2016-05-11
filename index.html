@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="css/jquery-ui.css">
     <script src="js/jquery.js"></script>
     <script src="js/jquery-ui.js"></script>
+    <script src="js/jquery.creditCardValidator.js"> </script>
 </head>
 <body>
 <div>
@@ -15,8 +16,71 @@
     <input type="text" id="to" placeholder="Select Check-out Date:">
     <button type="button" id="apply">Apply</button>
     <button type="button" id="price">Price</button>
-    <button type="button" id="reserve">Reserve</button>
+</div>
 
+<div id="cleanfee">Weekly cleaning Fee: $<span id="cf"> </span> </div>
+<div id="totalprice">Total Price of the rental: $<span id="tp"></span> </div>
+<div id="totalcharge">Total charge is: $<span id="tc"></span> </div>
+<br/>
+<div>
+    <button type="button" id="reserve">Reserve</button>
+</div>
+<br/>
+<div class="infoform">
+    <form class="userInfo">
+        <p>Your Information</p>
+        <label for="firstName">First Name (required)</label>
+        <input type="text" id="firstName" maxlength="150" >
+        <label for="lastName">Last Name (required)</label>
+        <input type="text" id="lastName" maxlength="150" >
+        <br/>
+        <label for="email">Email (required)</label>
+        <input type="email" id="email" >
+        <br/>
+        <label for="phone">Phone Number (required) please include country code, example: +15031234567</label>
+        <input type="number" id="phone" >
+    <div>
+        <button type="submit" id="payment">Continue to Payment</button>
+    </div>
+    </form>
+
+    <form class="ccInfo">
+        <br/>
+        <p>Credit Card Information</p>
+        <label for="creditCard">Card Number (required)</label>
+        <input type="number" id="creditCard" >
+        <br/>
+        <label for="ed">Expiration Date (required)</label>
+        <input type="date" id="ed" >
+        <label for="sc">Security Code (required)</label>
+        <input type="number" id="sc" >
+        <br/>
+        <p>Billing Address </p>
+        <label>First Name (required)</label><input type="text" id="b-fn">
+        <label>Last Name (required)</label><input type="text" id="b-ln">
+        <br/>
+        <label for="ba1">Billing Address 1 (required) </label>
+        <input type="text" id="ba1" >
+        <br/>
+        <label for="ba2">Billing Address 2: </label>
+        <input type="text" id="ba2" >
+        <br/>
+        <label for="city">City (required) </label>
+        <input type="text" id="city" >
+        <label for="state">State/Province (required) </label>
+        <input type="text" id="state" >
+        <label for="zip">Zip/Postcode (required) </label>
+        <input type="number" id="zip" >
+        <br/>
+        <label for="country">Country (required)</label>
+        <input type="text" id="country" placeholder="Please select your country">
+        <br/>
+        <p>Comments, Questions, and Special Requests</p>
+        <input type="text" id="comment" placeholder="Please leave your comments, questions or special requests here">
+        <div>
+            <button type="submit" id="request">Submit Request</button>
+        </div>
+    </form>
 </div>
 
 <!--<div id="jrange" class="dates">
@@ -111,9 +175,7 @@ $(document).ready( function(){
     $('#apply').click(function(){
 
         var beginDate = $('#from').datepicker("getDate");
-
         var endDate = $('#to').datepicker("getDate");
-
         var diff = (endDate - beginDate)/86400000;
 
         if(diff < 3){
@@ -226,11 +288,19 @@ $(document).ready( function(){
                     alert("The total price is: " + totalPrice);
                 }
             }
+            var cleanFee = 250;
+            $('#cf').html(cleanFee);
+            $('#tp').html(totalPrice);
+            $('#tc').html(cleanFee + totalPrice);
         }
     });
 
-    $('#reserve').click(function(){
 
+    $('#payment').click(function(){
+        $('#firstName').prop('required',true);
+        $('#lastName').prop('required',true);
+        $('#email').prop('required',true);
+        $('#phone').prop('required',true);
     });
 });
 
