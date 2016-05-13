@@ -143,6 +143,8 @@ $(document).ready( function(){
         defaultDate: "+1w",
         changeMonth: true,
         numberOfMonths: 2,
+        minDate: 0,
+        maxDate: '+1Y',
 
         beforeShowDay: function (date) {
             var string = jQuery.datepicker.formatDate('yy-mm-dd', date);
@@ -160,6 +162,8 @@ $(document).ready( function(){
         defaultDate: "+1w",
         changeMonth: true,
         numberOfMonths: 2,
+        minDate: 0,
+        maxDate: '+1Y',
 
         beforeShowDay: function (date) {
             var string = jQuery.datepicker.formatDate('yy-mm-dd', date);
