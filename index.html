@@ -28,7 +28,7 @@
 <br/>
 <div class="infoform">
     <form class="userInfo">
-        <p>Your Information</p>
+        <p><b>Your Information</b></p>
         <label for="firstName">First Name (required)</label>
         <input type="text" id="firstName" maxlength="150" >
         <label for="lastName">Last Name (required)</label>
@@ -46,19 +46,19 @@
 
     <form class="ccInfo">
         <br/>
-        <p>Credit Card Information</p>
+        <p><b>Credit Card Information</b></p>
         <label for="creditCard">Card Number (required)</label>
-        <input type="number" id="creditCard" >
+        <input type="text" id="creditCard" placeholder="1234 5678 9012 3456">
         <br/>
         <label for="ed">Expiration Date (required)</label>
         <input type="date" id="ed" >
         <label for="sc">Security Code (required)</label>
         <input type="number" id="sc" >
         <br/>
-        <p>Billing Address </p>
-        <label>First Name (required)</label><input type="text" id="b-fn">
-        <label>Last Name (required)</label><input type="text" id="b-ln">
+        <label for="nameOnCard">Name on Card (required)</label>
+        <input type="text" id="nameOnCard">
         <br/>
+        <p><b>Billing Address </b></p>
         <label for="ba1">Billing Address 1 (required) </label>
         <input type="text" id="ba1" >
         <br/>
@@ -301,6 +301,23 @@ $(document).ready( function(){
         $('#lastName').prop('required',true);
         $('#email').prop('required',true);
         $('#phone').prop('required',true);
+    });
+
+    $('#request').click(function(){
+        $('#creditCard').prop('required', true);
+        $('#creditCard').validateCreditCard(function(result){
+            if(result.valid == false) {
+                alert("Please input a valid credit card number.");
+            }
+        });
+        $('#ed').prop('required', true);
+        $('#sc').prop('required', true);
+        $('#nameOnCard').prop('required', true);
+        $('#ba1').prop('required', true);
+        $('#city').prop('required', true);
+        $('#state').prop('required', true);
+        $('#country').prop('required', true);
+        $('#zip').prop('required', true);
     });
 });
 
